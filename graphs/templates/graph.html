@@ -27,7 +27,10 @@
                             slot: {{loop.index0}},
                             sclass: '{{ii.sclass}}',
                             name: '{{ii.name}}',
-                            id: '{{ii.id}}'
+                            id: '{{ii.id}}',
+                            {% if ii.graph_type -%}
+                                graph_type: '{{ii.graph_type}}'
+                            {% endif %}
                        },
                     {%- endfor -%} },
                 sensor_count = Object.keys(sensors).length,
@@ -44,16 +47,8 @@
                         data: data.data
                    }; 
                     seriesOptions[sensor.slot].yAxis = seriesCounter;
-                   switch (sensor.sclass) {
-                   case 'humidity':
-                        seriesOptions[sensor.slot].type = 'line';
-                        break;
-                   case 'temperature':
-                        seriesOptions[sensor.slot].type = 'arearange';
-                        break;
-                   case 'light':
-                        seriesOptions[sensor.slot].type = 'line';
-                        break;
+                    if (sensor.graph_type) {
+                        seriesOptions[sensor.slot].type = sensor.graph_type;
                     }
                     seriesCounter++;
                     if (seriesCounter == sensor_count) {
@@ -115,28 +110,24 @@
                             afterSetExtremes : afterSetExtremes
                         },
                     },
-                    yAxis: [{
-                        title: {
-                            text: 'Temperature Range',
+                    yAxis: [
+                    {% for ii in sensors -%}
+                        {
+                            title: {
+                                text: "{{ ii.name }}"
+                            },
+                            {% if ii.height -%}
+                                height: '{{ ii.height }}%',
+                            {% endif -%}
+                            {%if ii.offset -%}
+                                offset: {{ ii.offset }},
+                            {% endif -%}
+                            {%if ii.top %}
+                                top: {{ ii.top }},
+                            {% endif -%}
                         },
-                        height: '80%',
-                            offset: 50 
-
-                    }, {
-                        title: {
-                               text: 'Humidity',
-                        },
-                        top: '70%',
-                        offset: 100,
-                        height: '50%'
-                    }, {
-                        title: {
-                               text: 'Light',
-                        },
-                        top: '30%',
-                        height: '30%'
-                    }
-                    ],
+                    {%- endfor -%}
+                    ]
                 });
             }
 
