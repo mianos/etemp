@@ -83,7 +83,8 @@ def jsond(id=None):
     start, end = qry.first()
     if id == 0:
         # navigation
-        qry = sensord(id, start, end, 'sfun_avg')
+        sensor = g.session.query(Sensors).filter(Sensors.nav == True).first()
+        qry = sensord(sensor.id, start, end, 'sfun_avg')
         return jsonify(data=[dict(x=localtoutc1k(ii.timestamp), y=ii.avg) for ii in qry])
     else:
         sensor = g.session.query(Sensors).filter(Sensors.id == id).first()

@@ -22,6 +22,8 @@ class Sensors(dbase):
     offset = Column(types.Integer)
     height = Column(types.Integer)
     graph_type = Column(types.String(length=20))
+    nav = Column(types.Boolean)
+    colour = Column(types.String(length=20))
 
 
 class DataTable(dbase):

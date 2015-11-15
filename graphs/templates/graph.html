@@ -29,7 +29,10 @@
                             name: '{{ii.name}}',
                             id: '{{ii.id}}',
                             {% if ii.graph_type -%}
-                                graph_type: '{{ii.graph_type}}'
+                                graph_type: '{{ii.graph_type}}',
+                            {% endif %}
+                            {% if ii.colour -%}
+                                colour: '{{ii.colour}}'
                             {% endif %}
                        },
                     {%- endfor -%} },
@@ -44,8 +47,11 @@
                     seriesOptions[sensor.slot] = {
                         // turboThreshold: 0,
                         name: sensor.name,
-                        data: data.data
+                        data: data.data,
                    }; 
+                   if (sensor.colour) {
+                        seriesOptions[sensor.slot].color = sensor.colour;
+                    }
                     seriesOptions[sensor.slot].yAxis = seriesCounter;
                     if (sensor.graph_type) {
                         seriesOptions[sensor.slot].type = sensor.graph_type;
@@ -114,7 +120,10 @@
                     {% for ii in sensors -%}
                         {
                             title: {
-                                text: "{{ ii.name }}"
+                                text: "{{ ii.name }}",
+                                {% if ii.colour %}
+                                    style: { color: '{{ii.colour}}' }
+                                {% endif %} 
                             },
                             {% if ii.height -%}
                                 height: '{{ ii.height }}%',
