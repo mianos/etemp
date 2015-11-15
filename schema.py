@@ -18,6 +18,9 @@ class Sensors(dbase):
     name = Column(types.String(length=128), unique=True)
     sclass = Column(types.String(length=20))
     display = Column(types.Boolean)
+    top = Column(types.Integer)
+    offset = Column(types.Integer)
+    height = Column(types.Integer)
 
 
 class DataTable(dbase):

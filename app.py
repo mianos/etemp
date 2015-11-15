@@ -8,6 +8,7 @@ import configobj
 import jinja_local.jinja_filters
 
 import reports, receiver
+import graphs
 import menu
 
 # some stubs because flask_login is not used. Delete these and add flask login
@@ -38,6 +39,7 @@ def create_app():
     menu.init_app(app)
     jinja_local.jinja_filters.init_app(app)
     app.register_blueprint(reports.reports, url_prefix='/reports')
+    app.register_blueprint(graphs.graphs, url_prefix='/graphs')
     app.register_blueprint(receiver.receiver)
     app.register_blueprint(auth)
 
@@ -70,4 +72,4 @@ if __name__ == '__main__':
         host = 'localhost'
     else:
         host = '0.0.0.0'
-    app.run(debug=True, port=8000, host=host)
+    app.run(debug=True, port=8080, host=host)
