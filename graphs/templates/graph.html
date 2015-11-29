@@ -45,7 +45,6 @@
             $.each(sensors, function(index, sensor) {
                 $.getJSON('/graphs/jsond/'+ sensor.id, function(data) { 
                     seriesOptions[sensor.slot] = {
-                        // turboThreshold: 0,
                         name: sensor.name,
                         data: data.data,
                    }; 
